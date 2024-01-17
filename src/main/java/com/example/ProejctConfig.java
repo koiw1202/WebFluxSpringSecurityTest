@@ -47,6 +47,7 @@ public class ProejctConfig {
         var uds = new MapReactiveUserDetailsService(u);
 
         return uds;
+
     }
 
     @Bean
