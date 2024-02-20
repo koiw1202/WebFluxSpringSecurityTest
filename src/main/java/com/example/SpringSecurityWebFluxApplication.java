@@ -43,13 +43,11 @@ public class SpringSecurityWebFluxApplication {
                         HttpMethod.GET,
                         new HttpEntity<String>(headers),
                         String.class)
-        ).map(response -> {
-            return response.getBody() ;
-        })
+        ).map(HttpEntity::getBody)
                 .subscribe(data-> System.out.println("# enmitted data: "+ data),
                         System.out::println,
                         ()-> System.out.println("# emitted onComplete signal")
-                    ) ;
+                ) ;
 
     }
 }
