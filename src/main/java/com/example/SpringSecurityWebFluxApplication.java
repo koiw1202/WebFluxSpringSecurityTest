@@ -12,42 +12,47 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
 public class SpringSecurityWebFluxApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-//        Flux<String> sequence = Flux.just("Hello", "Reactor") ;
+//        URI worldTimeUri = UriComponentsBuilder.newInstance().scheme("http")
+//                .host("worldtimeapi.org")
+//                .port(80)
+//                .path("/api/timezone/Asia/Seoul")
+//                .build()
+//                .encode()
+//                .toUri() ;
 //
-//        sequence.map(String::toLowerCase)
-//                .subscribe(System.out::println) ;
+//        RestTemplate restTemplate = new RestTemplate() ;
+//        HttpHeaders headers = new HttpHeaders() ;
+//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+//
+//        Mono.just(
+//                restTemplate.exchange(worldTimeUri,
+//                        HttpMethod.GET,
+//                        new HttpEntity<String>(headers),
+//                        String.class)
+//        ).map(HttpEntity::getBody)
+//                .subscribe(data-> System.out.println("# enmitted data: "+ data),
+//                        System.out::println,
+//                        ()-> System.out.println("# emitted onComplete signal")
+//                ) ;
 
-//        SpringApplication.run(SpringSecurityWebFluxApplication.class, args);
+        Flux<String> coldFlux =
+                Flux.fromIterable(Arrays.asList("KOREA", "JAPAN", "CHINESE")) ;
 
-        URI worldTimeUri = UriComponentsBuilder.newInstance().scheme("http")
-                .host("worldtimeapi.org")
-                .port(80)
-                .path("/api/timezone/Asia/Seoul")
-                .build()
-                .encode()
-                .toUri() ;
+        coldFlux.subscribe(System.out::println) ;
 
-        RestTemplate restTemplate = new RestTemplate() ;
-        HttpHeaders headers = new HttpHeaders() ;
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        Thread.sleep(2000);
+        System.out.println();
+        coldFlux.subscribe(System.out::println) ;
 
-        Mono.just(
-                restTemplate.exchange(worldTimeUri,
-                        HttpMethod.GET,
-                        new HttpEntity<String>(headers),
-                        String.class)
-        ).map(HttpEntity::getBody)
-                .subscribe(data-> System.out.println("# enmitted data: "+ data),
-                        System.out::println,
-                        ()-> System.out.println("# emitted onComplete signal")
-                ) ;
+
 
     }
 }
